@@ -17,7 +17,7 @@ plot_diagnostics(params,'-');
 
 % predictor corrector
 params.method="predcorr";
-%params = Sim(params);
+params = Sim(params);
 params.data_dir= "data/" + params.mycase+"_"+params.method+"/";
 plot_diagnostics(params,':')
 

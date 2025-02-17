@@ -3,7 +3,8 @@ function [params, fs] = initialize_simulation(params)
 for s = 1:params.Ns
     params.Lv = params.Lv_s(s);
     params.x = [0:params.Nx-1] * params.Lx / params.Nx; % Spatial grid
-    params.v = [0:params.Nv-1] * 2 * params.Lv / params.Nv - params.Lv; % Velocity grid
+    %params.v = [0:params.Nv-1] * 2 * params.Lv / params.Nv - params.Lv; % Velocity grid
+    params.v = linspace(-params.Lv,params.Lv,params.Nv);
     params.dx = params.x(2) - params.x(1); % Spatial grid spacing
     params.dv = params.v(2) - params.v(1); % Velocity grid spacing
     % Create meshgrid for spatial and velocity coordinates
@@ -19,7 +20,7 @@ for s = 1:params.Ns
     grid.dx = params.dx;
     grid.Lx = params.Lx;
     grid.size = size(params.Xs{s}(:, :, 1));
-    grid.dom = [0, -params.Lv, params.Lx, params.Lv];
+    grid.dom = [0, -params.Lv, params.Lx-params.dx, params.Lv-params.dv];
     grid.method = "spline";
     params.grids(s) = grid;
 end
