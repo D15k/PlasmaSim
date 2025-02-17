@@ -8,14 +8,13 @@ for s = 1:Ns
 end
 
 Nx = grids(1).size(1);
-kxn =  (mod((1:Nx)-ceil(Nx/2+1),Nx)- floor(Nx/2)) ;
 Lx = grids(1).Lx;
-rx = 2*pi*1i./Lx;
-kx = kxn.*rx;
+kx = (2*pi/Lx) * [-Nx/2:Nx/2-1];
+kx = fftshift(kx);
 
 % laplacian is division -|k|^2
-K2 = kx'.^2;
-K2 ( abs(K2) < 1.0e-11 ) = 1;
+K2 = kx.^2;
+K2(1) = 1; % avoid devision by 0
 % to avoid a division by zero, we set the zeroth wavenumber to one.
 % this leaves it's respective Fourier coefficient unaltered, so the
 % zero mode of Sk is conserved.dphi_dx_h = 1i*phi_fft.*kx(1,:); This way, Sk's zero mode implicitly
@@ -25,9 +24,9 @@ K2 ( abs(K2) < 1.0e-11 ) = 1;
 % defined up to a constant! You can freely overwrite the zero mode,
 % therefore.
 b = fft(rho); 
-b(1) = 0;
-phi_fft = - b' ./ K2; % solves second equation of vlassov poisson
-dphi_dx_h = phi_fft.*kx';
+phi_fft =  -b ./(K2); % solves second equation of vlassov poisson
+phi_fft(1) = 0; % set mean to zero
+dphi_dx_h = 1i*phi_fft.*kx;
     Efield = -reshape(ifft(dphi_dx_h, "symmetric"), 1, []);
     
 end

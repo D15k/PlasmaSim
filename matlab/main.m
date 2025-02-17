@@ -21,4 +21,7 @@ toc()
 figure(44)
 plot_qty_vs_time(params,"Epot")
 
+figure(45)
+plot_qty_vs_time(params,"Etot")
+
 
