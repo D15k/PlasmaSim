@@ -20,11 +20,11 @@ for s = 1:params.Ns
         time = data.time; % Assuming each row is a new iteration
         data_spec{s} = data;
         if qty == "Etot"
-            h = semilogy(time, data.Etot, 'Color', species_colors(s,:), 'DisplayName', species_name);
-            title('Total Energy'); xlabel('time'); ylabel('Etot'); grid on;
+            h(s) = semilogy(time, data.Etot, 'Color', species_colors(s,:), 'DisplayName', species_name);
+            title('Total Energy'); xlabel('time'); ylabel('Etot'); grid on; hold on
         elseif qty == "Epot"
-            h = semilogy(time, data.Epot, 'Color', species_colors(s,:), 'DisplayName', species_name);
-            title('Potential Energy'); xlabel('time'); ylabel('Etot'); grid on;
+            h(s) = semilogy(time, data.Epot, 'Color', species_colors(s,:), 'DisplayName', species_name);
+            title('Potential Energy'); xlabel('time'); ylabel('Etot'); grid on; hold on
         end
 
     else

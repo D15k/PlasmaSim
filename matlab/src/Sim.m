@@ -38,7 +38,6 @@ function [fs, params] = step(params, fs)
         [fs,params] = NuFi(params,fs);
     else
         display("error step")
-        exit;
     end
 
 

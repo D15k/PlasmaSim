@@ -7,7 +7,7 @@ for s = 1:Ns
     rho = rho + charge(s)*sum(fs(:,:,s))*grids(s).dv;
 end
 
-Nx = grids(1).size(1);
+Nx = grids(1).Nx;
 Lx = grids(1).Lx;
 kx = (2*pi/Lx) * [-Nx/2:Nx/2-1];
 kx = fftshift(kx);

@@ -16,10 +16,13 @@ for s = 1:params.Ns
     grid.V = params.Xs{s}(:, :, 2);
     grid.Mask = 1;
     grid.x = params.x;
+    
     grid.dv = params.dv;
     grid.dx = params.dx;
     grid.Lx = params.Lx;
     grid.size = size(params.Xs{s}(:, :, 1));
+    grid.Nx = grid.size(2);
+    grid.Nv = grid.size(1);
     grid.dom = [0, -params.Lv, params.Lx-params.dx, params.Lv-params.dv];
     grid.method = "spline";
     params.grids(s) = grid;
