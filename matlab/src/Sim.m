@@ -1,17 +1,24 @@
-function params = Sim(params)
+function [params,data] = Sim(params)
 
-% Initialize grids and distribution functions
-[params, fs] = initialize_simulation(params);
+% Initialize grids, distribution functions and output array (data)
+[params, fs, data] = initialize_simulation(params);
 
 % Plot initial conditions
 params.Efield = vPoisson(fs,params.grids,params.charge);
-plot_results(params, fs);
-% Main loop over time
 params.Efield_list(:,1) = params.Efield;
+
+% first plot the initial condition
+plot_results(params, fs);
+
+% Main loop over time
+Nsamples = 0;
 for iT = 1:params.Nt_max
     params.it = iT;
     % Perform a single time step
     [fs, params] = step(params, fs);
+    
+    % increase time
+    time = params.dt * iT
 
     % Measurements
     [params]=measure(params, fs);
@@ -19,8 +26,13 @@ for iT = 1:params.Nt_max
     % Plot results at each time step
     plot_results(params, fs);
 
+    % save config at specific times
+    if mod(iT,params.dit_save) == 0
+        Nsamples = Nsamples + 1;
+        data = save_config(params,data,fs,Nsamples);
+    end
+
     % Check if simulation end time is reached
-    time = params.dt * iT
     if time >= params.Tend
         break;
     end
