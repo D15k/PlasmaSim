@@ -49,7 +49,7 @@ function [fs, params] = step(params, fs)
     elseif params.method == "NuFi"
         [fs,params] = NuFi(params,fs);
     elseif params.method == "CMM"
-        [fs,params] == CMM(params,fs);
+        [fs,params] = CMM(params,fs);
     else
         display("error step")
     end
