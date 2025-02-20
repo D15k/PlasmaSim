@@ -48,9 +48,26 @@ function [fs, params] = step(params, fs)
         [fs,params] = predictor_corrector(params,fs);
     elseif params.method == "NuFi"
         [fs,params] = NuFi(params,fs);
+    elseif params.method == "CMM"
+        [fs,params] == CMM(params,fs);
     else
         display("error step")
     end
+
+
+end
+
+function [fs,params] = CMM(params,fs)
+iT = params.it+1;
+dt = params.dt;
+for s = 1:params.Ns
+    [X,V] = sympl_flow_Half(iT,dt,params.grids(s).X,params.grids(s).V,params.charge(s)/params.Mass(s)*params.Efield_list,params.grids(s));
+    fini = params.fini{s};
+    fs(:,:,s) = fini(X,V);
+end
+[Efield] =vPoisson(fs,params.grids,params.charge);
+params.Efield = Efield;
+params.Efield_list(:,iT) = Efield;
 
 
 end
