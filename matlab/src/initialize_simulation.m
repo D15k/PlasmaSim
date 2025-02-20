@@ -12,7 +12,7 @@ for s = 1:params.Ns
     fs(:, :, s) = fini(params.grids(s).X,params.grids(s).V);
 end
 
-% Maximal Iteration umber:
+% Maximal Iteration number:
 % check if maximal time iteration number Nt_max fits final time Tend
 % this is necessary since size of the preallocated arrays may depend on
 % Nt_max.
