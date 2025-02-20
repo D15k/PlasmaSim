@@ -64,7 +64,7 @@ function plot_results(params, fs)
     % Plot results at each time step
     for s = 1:params.Ns
     subplot(params.Ns+1, 1, s);
-    pcolor(params.Xs{s}(:, :, 1), params.Xs{s}(:, :, 2), fs(:, :, s)); shading flat;
+    pcolor(params.grids(s).X, params.grids(s).V, fs(:, :, s)); shading flat;
     subtitle("$f_\mathrm{"+params.species_name(s)+"}$");
     colorbar();
     xlabel("$x$");
