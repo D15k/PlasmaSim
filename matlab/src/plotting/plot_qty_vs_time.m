@@ -23,8 +23,9 @@ for s = 1:params.Ns
             h(s) = semilogy(time, data.Etot, 'Color', species_colors(s,:), 'DisplayName', species_name);
             title('Total Energy'); xlabel('time'); ylabel('Etot'); grid on; hold on
         elseif qty == "Epot"
-            h(s) = semilogy(time, data.Epot, 'Color', species_colors(s,:), 'DisplayName', species_name);
+            h(s) = semilogy(time, data.Epot);
             title('Potential Energy'); xlabel('time'); ylabel('$E_\mathrm{pot}$'); grid on; hold on
+            return
         end
 
     else

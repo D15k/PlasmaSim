@@ -1,21 +1,22 @@
 params = struct();
-params.mycase = "ion_accoustic_waves";          % "two_stream"
+params.mycase = "ion_accoustic_waves_weak";          % "two_stream"
 params.Nx = 2^8;                            % Number of spatial grid points
-params.Nv = 2^9;                            % Number of velocity grid points
+params.Nv = 2^8;                            % Number of velocity grid points
 params.Ns = 2;                              % Number of species (electrons and ions)
-params.method="NuFi";
+params.method="predcorr";
 params.species_name = ["electrons","ions"]; % name of the different species
 params.Mr = 1000;                           % Mass ratio for ions
 params.Mass = [1, params.Mr];               % Mass of species
 params.charge = [-1, 1];                    % Charge of species
 params.Nt_max = 4000;                       % Maximum number of time steps
 params.dt = 1/4;                            % Time step size
-params.dt_save = 100;                        % Save after dt_save time
-params.Tend = 500;                          % End time of simulation
+params.Nsubs = 8;
+params.dt_save = 50;                        % Save after dt_save time
+params.Tend = 100;                          % End time of simulation
 
 % Initial condition parameters
 params.k = 0.5;                             % Wave number
-params.alpha = 0.5;                         % Perturbation amplitude
+params.alpha = 0.01;                         % Perturbation amplitude
 params.pert = @(x) params.alpha * cos(params.k * x); % Perturbation function
 
 % Electrons
