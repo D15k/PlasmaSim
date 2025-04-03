@@ -1,12 +1,13 @@
-function data = save_config(params,data,fs,Ns,save_to_file)
+function data = save_config(params,data,fs,Nsamples,save_to_file)
 
 if nargin < 5  % Check if save_to_file is provided
     save_to_file = 0;
 end
 
-for s = 1:params.Ns
-    data.fs(:,:,Ns,s) = fs(:,:,s);
-    data.Efield(:,Ns) = params.Efield;
+
+for species = 1:params.Ns
+    data.fs(:,:,Nsamples,species) = fs(:,:,species);
+    data.Efield(:,Nsamples) = params.Efield;
 end
 
 % Save data to file if requested
