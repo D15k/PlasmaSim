@@ -1,12 +1,7 @@
 function [params, fs, data] = initialize_simulation(params)
 % Initialize grids and distribution functions
 for s = 1:params.Ns
-    if params.Ns ==1
-        Lv = params.Lv;
-    else
-        Lv = params.Lv_s(s);
-    end
-    [grid] = make_periodic_grid(params.Lx,Lv,params.Nx,params.Nv);
+    [grid] = make_periodic_grid(params.Lx,params.Lv_s(s),params.Nx,params.Nv);
     grid.method = "spline";
     params.grids(s) = grid;
 end
@@ -14,7 +9,8 @@ end
 % Initialize distribution functions
 for s = 1:params.Ns
     fini = params.fini{s};
-    fs(:, :, s) = fini(params.grids(s).X,params.grids(s).V);
+    A=fini(params.grids(s).X,params.grids(s).V)
+    fs(:, :, s) = fini(params.grids(s).X,params.grids(s).V)
 end
 
 % Maximal Iteration number:
@@ -41,10 +37,10 @@ if isfield(params, 'dt_save')
     data.fs=zeros(Nsize);
     data.Efield = zeros([params.grids(1).Nx,Nsamples]);
     data.time = dt_save*[1:Nsamples];
-
+    
 else
     % never save anything
-    params.dit_save = params.Nt_max + 2;
+    params.dit_save = params.Nt_max + 2; 
     data = [];
 end
 
@@ -55,11 +51,9 @@ if ~isfield(params, 'data_dir')
     else
         root = params.root_dir;
     end
-    params.data_dir= root + "/data/" + params.mycase+"_Tend"+num2str(params.Tend)+"_"+params.method+"/";
+    params.data_dir= root + "/data/" + params.mycase+"_"+params.method+"/";
+    if ~exist(params.data_dir, 'dir')
+        mkdir(params.data_dir);
+    end
 end
-
-if ~exist(params.data_dir, 'dir')
-    mkdir(params.data_dir);
-end
-
 end

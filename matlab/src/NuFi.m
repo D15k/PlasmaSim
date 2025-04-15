@@ -23,7 +23,6 @@ if n == 1
     return;
 end
 
-
 periodic = @(x) mod(x,grid.Lx-grid.dx);
 
 while n > 2

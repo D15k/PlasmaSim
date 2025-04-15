@@ -23,7 +23,7 @@ if n == 1
     return;
 end
 
-
+shape(grid.x), shape(Efield(:,n))
 periodic = @(x) mod(x,grid.Lx-grid.dx);
 
 while n > 2

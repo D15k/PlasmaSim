@@ -1,7 +1,20 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
-import initialize_simulation
+mpl.rcParams['text.usetex'] = False # Disable LaTeX rendering to avoid errors if LaTeX is not installed
+import sys
+from pathlib import Path
+
+params_path = Path(__file__).resolve().parent.parent
+print(params_path)
+sys.path.append(str(params_path))
+
+import params.PARAMS_ion_acoustic_waves as params
+
+from src.initialize_simulation import *
+from src.vPoisson import *
+from src.measure import *
+from src.NuFi import *
 
 def Sim(params):
     """
@@ -19,36 +32,37 @@ def Sim(params):
     params, fs, data = initialize_simulation(params)
 
     # Compute initial electric field and store it
-    params.Efield = vPoisson(fs, params["grids"], params["charge"])
-    params["Efield_list"] = [params["Efield"]]  # Store first Efield
+    params.Efield = vPoisson(fs, params.grids, params.charge)
+    params.Efield_list = [params.Efield]  # Store first Efield
 
     # Plot initial conditions
-    plot_results(params, fs)
+    # plot_results(params, fs)       #TODO: Will plot everything after the simulation
 
     # Main time loop
     Nsamples = 0
-    for iT in range(1, params["Nt_max"] + 1):
-        params["it"] = iT  # Store iteration count
+    for iT in range(1, params.Nt_max + 1):
+        params.it = iT  # Store iteration count
 
         # Perform a single time step
         fs, params = step(params, fs)
 
         # Increase time
-        time = params["dt"] * iT
+        time = params.dt * iT
+        print(f'Time: {time:.2f}')
 
         # Measurements
         params = measure(params, fs)
 
         # Plot results
-        plot_results(params, fs)
+        plot_results(params, fs)   #TODO: Will plot everything after the simulation
 
-        # Save configuration at specific times
-        if iT % params["dit_save"] == 0:
+        """# Save configuration at specific times
+        if iT % params.dit_save == 0:
             Nsamples += 1
-            data = save_config(params, data, fs, Nsamples)
+            data = save_config(params, data, fs, Nsamples)"""  ##TODO: Convert save_config function 
 
         # Stop if simulation end time is reached
-        if time >= params["Tend"]:
+        if time >= params.Tend:
             break
 
     return params, data
@@ -58,7 +72,7 @@ def step(params, fs):
     """
     Advances the simulation by one time step.
     """
-    method = params["method"]
+    method = params.method
     
     if method == "predcorr":
         fs, params = predictor_corrector(params, fs)
@@ -72,7 +86,7 @@ def step(params, fs):
     return fs, params
 
 
-def CMM(params, fs):
+def CMM(params, fs):   #TODO: Convert CMM function
     """
     Runs the CMM (Conservative Mapping Method) step.
     """
@@ -95,25 +109,32 @@ def CMM(params, fs):
 
 
 def plot_results(params, fs):
-    """
-    Plots the results of the simulation.
-    """
-    fig, axes = plt.subplots(params["Ns"] + 1, 1, figsize=(8, 6))
+    Ns = params.Ns
+    grids = params.grids
+    Efield = params.Efield
 
-    for s in range(params["Ns"]):
-        ax = axes[s]
-        im = ax.pcolormesh(params["grids"][s]["X"], params["grids"][s]["V"], fs[:, :, s], shading='auto')
-        ax.set_title(f"$f_\\mathrm{{{params['species_name'][s]}}}$")
-        fig.colorbar(im, ax=ax)
-        ax.set_xlabel("$x$")
-        ax.set_ylabel("$v$")
+    plt.clf()  # Clear previous figure
 
-    ax = axes[-1]
-    ax.plot(params["grids"][0]["x"], params["Efield"])
-    ax.set_title("$E$")
-    ax.set_xlabel("$x$")
-    fig.colorbar(im, ax=ax)
+    for s in range(Ns):
+        plt.subplot(Ns + 1, 1, s + 1)
+        
+        X = grids[s]['X']
+        V = grids[s]['V']
+        F = fs[:, :, s].T  # Transpose to match (V, X) shape
 
-    plt.pause(0.01)  # Pause for visualization
-    plt.show(block=False)  # Non-blocking display
+        plt.pcolormesh(X, V, F, shading='auto')
+        plt.title(rf"$f_\mathrm{{{params.species_name[s]}}}$")
+        plt.colorbar()
+        plt.xlabel("$x$")
+        plt.ylabel("$v$")
 
+    # Plot E-field
+    plt.subplot(Ns + 1, 1, Ns + 1)
+    x = grids[0]['x']
+    plt.plot(x, Efield)
+    plt.xlim([x[0], x[-1]])
+    plt.title("$E$")
+    plt.xlabel("$x$")
+
+    plt.tight_layout()
+    plt.pause(0.25)

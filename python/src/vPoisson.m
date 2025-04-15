@@ -27,6 +27,7 @@ b = fft(rho);
 phi_fft =  -b ./(K2); % solves second equation of vlassov poisson
 phi_fft(1) = 0; % set mean to zero
 dphi_dx_h = 1i*phi_fft.*kx;
-    Efield = -reshape(ifft(dphi_dx_h, "symmetric"), 1, []);
-    
+Efield = -reshape(ifft(dphi_dx_h, "symmetric"), 1, [])
+
+plot(Efield)
 end

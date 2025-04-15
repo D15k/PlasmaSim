@@ -38,9 +38,6 @@ for iT = 1:params.Nt_max
     end
 end
 
-% save config to file
-save_config(params,data,fs,Nsamples,1);
-
 end
 %% Helper Functions
 
@@ -49,8 +46,6 @@ function [fs, params] = step(params, fs)
 
     if params.method == "predcorr"
         [fs,params] = predictor_corrector(params,fs);
-    elseif params.method == "predcorr_multi"
-        [fs,params] = predictor_corrector_subcycling_electrons(params,fs);
     elseif params.method == "NuFi"
         [fs,params] = NuFi(params,fs);
     elseif params.method == "CMM"
@@ -76,6 +71,10 @@ params.Efield_list(:,iT) = Efield;
 
 
 end
+
+
+
+
 
 
 function plot_results(params, fs)

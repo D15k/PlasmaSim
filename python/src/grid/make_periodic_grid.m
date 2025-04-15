@@ -9,7 +9,6 @@ function [grid] = make_periodic_grid(Lx,Lv,Nx,Nv)
     % Create meshgrid for spatial and velocity coordinates
     [X,V] = meshgrid(x, v);
 
-
     grid.x  = x; grid.v  = v;
     grid.X  = X; grid.V  = V;
     grid.dx = dx;grid.dv = dv;
