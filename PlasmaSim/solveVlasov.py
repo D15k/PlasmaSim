@@ -31,7 +31,7 @@ def NuFi(iter, params, sim_species, hist_Efield):
         )
         
         fini = species_i.init_distrib_fct
-        f = f.at[:, :].set(fini(X_new, V_new))
+        f = f.at[:, :].set(fini(X_new, V_new).T)
     
     return sim_species
 
@@ -59,11 +59,11 @@ def sympl_flow_Half(n, dt, X, V, Efield, grid):
     while n > 2:
         n = n - 1
         X = X - dt * V  # Inverse signs; going backwards in time
-        E_interp = InterpolatedUnivariateSpline(grid.x, Efield[:, n])
+        E_interp = InterpolatedUnivariateSpline(X, Efield[:, n])
         V = V + dt * E_interp(periodic(X)).reshape(grid.size)
     
     X = X - dt * V
-    E_interp = InterpolatedUnivariateSpline(grid.x, Efield[:, 1])
+    E_interp = InterpolatedUnivariateSpline(X, Efield[:, 1])
     V = V + (dt / 2) * E_interp(periodic(X)).reshape(grid.size)
     
     return X, V

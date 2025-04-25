@@ -22,7 +22,7 @@ def Poisson(params, sim_species):
     rho = jnp.zeros(N_x)  # Initialize rho with zeros
     
     for species_i in sim_species:
-        rho += species_i.charge * jnp.sum(species_i.distrib_fct, axis=1) * species_i.dv
+        rho += species_i.charge * jnp.sum(species_i.curt_distrib_fct, axis=1) * species_i.dv
    
     # Define wave numbers
     kx = (2 * jnp.pi / L_x) * jnp.fft.fftshift(jnp.arange(-N_x//2, N_x//2))
