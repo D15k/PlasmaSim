@@ -1,1 +1,0 @@
-# Plotting fs and Efield
