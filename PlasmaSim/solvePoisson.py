@@ -2,7 +2,7 @@ import jax.numpy as jnp
 from jax import jit
 
 
-def Poisson(params, sim_species):
+def Poisson(params):
     """
     Solves the Poisson equation in Fourier space to compute the electric field using the Fourier-Galerkin method.
 
@@ -21,7 +21,7 @@ def Poisson(params, sim_species):
     ### Compute charge density for each species
     rho = jnp.zeros(N_x)  # Initialize rho with zeros
     
-    for species_i in sim_species:
+    for species_i in params.sim_species:
         rho += species_i.charge * jnp.sum(species_i.curt_distrib_fct, axis=1) * species_i.dv
    
     # Define wave numbers

@@ -1,6 +1,7 @@
 from typing import Callable
 from dataclasses import dataclass, field
 
+### Classes to help users initialize the simulation ###
     
 @dataclass
 class Parameters:
@@ -34,6 +35,7 @@ class Parameters:
     plot: bool = False
     save_freq: int = 1
     name: str = 'PlasmaSim'
+    save_dir: str = None
     
     dt: float = field(init = False)
     dx: float = field(init = False)
@@ -44,7 +46,6 @@ class Parameters:
         self.dt = self.L_t/(self.N_t - 1)      
         self.dx = self.L_x/(self.N_x - 1)
         
-
 
 @dataclass
 class Species:
