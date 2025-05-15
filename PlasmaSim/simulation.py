@@ -2,12 +2,12 @@ import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 
 from .initialization import Parameters, Species
 from .solvePoisson import Poisson  # Use the Poisson solver from solvePoisson.py
 from .solveVlasov import NuFi#, CMM, predictor_corrector
 from .storeData import StoreData
+from .utils import copy_attrs
 
 class Simulation:
     '''
@@ -22,12 +22,9 @@ class Simulation:
     
     def __init__(self, params: Parameters, sim_species: Species | list[Species], verbose: bool = True):
         self.verbose = verbose
-        # Import attributes from params
-        for attr in dir(params):
-            if not attr.startswith("__") and not callable(getattr(params, attr)):
-                setattr(self, attr, getattr(params, attr))
+        copy_attrs(params, self) # Import attributes from params
                 
-        # Compute initial variables that cannot be computed in the Parameters and Species classes
+        ### Compute initial variables that cannot be computed in the Parameters and Species classes
         self.N_s = len(sim_species) # Number of species
         
         self.sim_species = sim_species

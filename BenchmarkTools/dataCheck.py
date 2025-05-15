@@ -25,7 +25,7 @@ def load_python_data(file_path):
     return python_Efield, python_electron, python_ion
 
 matlab_path = r"C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\Code_MATLAB\data\ion_accoustic_waves_weak_Tend100_NuFi\config_data.mat"
-python_path = r"C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\plasma-sim_python-conversion\ion_acoustic_wave_20250515_134904\data.mat"
+python_path = r"C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\plasma-sim_python-conversion\ion_acoustic_wave_2025-05-15_16-17-25\data.mat"
 
 m_E, m_fe, m_fi = load_matlab_data(matlab_path)
 p_E, p_fe, p_fi = load_python_data(python_path)

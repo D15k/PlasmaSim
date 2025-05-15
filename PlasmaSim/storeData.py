@@ -3,6 +3,7 @@ from os import getcwd, makedirs
 from datetime import datetime
 from scipy.io import savemat
 import matplotlib.pyplot as plt
+from .utils import copy_attrs
 import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
@@ -16,15 +17,12 @@ class StoreData:
     def __init__(self, sim):       
         # Import useful parameters from simulation for later use
         self.sim = type('', (), {})()
-        
-        for attr in dir(sim):
-            if not attr.startswith(("__", "hist_", "stored_")) and not callable(getattr(sim, attr)):
-                setattr(self.sim, attr, getattr(sim, attr))
-        
+        copy_attrs(sim, self.sim, ["__", "hist_", "stored_"])
+                
         # If no save directory is specified, use the current working directory
-        if self.sim.save_dir is None: self.sim.save_dir = getcwd() # TODO: put getcwd in the parameters class
+        #if self.sim.save_dir is None: self.sim.save_dir = getcwd() # TODO: put getcwd in the parameters class
         # Get the current date and time
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         # Create save directory if it doesn't exist
         self.save_path = f"{self.sim.save_dir}/{self.sim.name}_{self.timestamp}"
         makedirs(self.save_path, exist_ok=True)

@@ -1,7 +1,9 @@
 import jax
 jax.config.update("jax_enable_x64", True)
-from typing import Callable
+
 from dataclasses import dataclass, field
+from typing import Callable
+from os import getcwd
 
 ### Classes to help users initialize the simulation ###
     
@@ -37,7 +39,7 @@ class Parameters:
     plot: bool = False
     save_freq: int = 1
     name: str = 'PlasmaSim'
-    save_dir: str = None
+    save_dir: str = getcwd()
     
     dt: float = field(init = False)
     dx: float = field(init = False)
