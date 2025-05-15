@@ -1,3 +1,5 @@
+import jax
+jax.config.update("jax_enable_x64", True)
 from typing import Callable
 from dataclasses import dataclass, field
 
@@ -43,8 +45,8 @@ class Parameters:
     
     def __post_init__(self):
          
-        self.dt = self.L_t/(self.N_t - 1)      
-        self.dx = self.L_x/(self.N_x - 1)
+        self.dt = self.L_t / self.N_t     
+        self.dx = self.L_x / self.N_x
         
 
 @dataclass

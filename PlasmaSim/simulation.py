@@ -1,3 +1,5 @@
+import jax
+jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -30,7 +32,7 @@ class Simulation:
         
         self.sim_species = sim_species
         for species_i in self.sim_species:
-            species_i.dv = 2*species_i.L_v/(self.N_v - 1) # Velocity step
+            species_i.dv = 2 * species_i.L_v / (self.N_v - 1)             # Velocity step
             species_i.grid = self.__build_PhaseSpaceGrid(species_i) # Grid of points on the spatial and velocity axes
             species_i.curt_distrib_fct = self.__build_InitDistribFct(species_i) # Initial distribution function
         
@@ -45,20 +47,20 @@ class Simulation:
         if self.verbose:
             print('Simulation initialized')
             print('Simulation parameters:')
-            for attr in dir(self):
-                if not attr.startswith(('__', 'hist_', 'stored_', 'verbose')) and not callable(getattr(self, attr)):
+            for attr in dir(self):  # use prettytable module to print the parameters
+                if not attr.startswith(('__', 'hist_', 'curt_', 'stored_', 'verbose')) and not callable(getattr(self, attr)):
                     print(f'{attr}: {getattr(self, attr)}')
-        print('------------------------------------------')
+            print('------------------------------------------')
     
     
     def run(self):
-        for iter in tqdm(range(1, self.N_t + 1), 'Simulation running...'): # iter 0 is the initial condition so we start from 1 and finish at (N_t + 1) since we want to include the last time step and the range is exclusive of the end point
-            #plt.pcolormesh(self.sim_species[0].curt_distrib_fct.T)
-            #plt.show()
-
+        for iter in tqdm(range(1, self.N_t + 1), 'Simulation running...'): # iter = 0 is the initial condition so we start from 1 and finish at (N_t + 1) since we want to include the last time step and the range is exclusive of the end point
+            
             if self.computation_method == "NuFi":
+
                 for species_i in self.sim_species:
                     species_i.curt_distrib_fct = species_i.curt_distrib_fct.at[:].set(NuFi(iter, species_i, self))  # Update the distribution function for each species
+                
                 self.curt_Efield = self.curt_Efield.at[:].set(Poisson(self)) # Update the current electric field
                 self.hist_Efield = self.hist_Efield.at[iter, :].set(self.curt_Efield) # Store the electric field at the current time step
             

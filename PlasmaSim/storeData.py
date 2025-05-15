@@ -3,7 +3,10 @@ from os import getcwd, makedirs
 from datetime import datetime
 from scipy.io import savemat
 import matplotlib.pyplot as plt
+import jax
+jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
+
 
 class StoreData:
     '''
@@ -26,7 +29,7 @@ class StoreData:
         self.save_path = f"{self.sim.save_dir}/{self.sim.name}_{self.timestamp}"
         makedirs(self.save_path, exist_ok=True)
         
-        self.N_save = 1 + self.sim.N_t // self.sim.save_freq # Number of time steps where data is saved
+        self.N_save = self.sim.N_t // self.sim.save_freq # Number of time steps where data is saved
         
         # Initialize data structure to store or plot
         self.save_distrib_fct = jnp.zeros((self.N_save, self.sim.N_s, self.sim.N_x, self.sim.N_v)) # History of the distribution functions to be plotted or exported
@@ -104,7 +107,7 @@ class StoreData:
         ax.set_title("$E$")
         ax.set_xlabel("$x$")
         ax.set_ylabel("$E(x)$")
-        ax.set_ylim(-self.max_E, self.max_E)
+        #ax.set_ylim(-self.max_E, self.max_E)
 
         plt.tight_layout()  
         

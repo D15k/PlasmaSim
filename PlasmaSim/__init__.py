@@ -18,8 +18,6 @@ from .solveVlasov import NuFi#, CMM, predictor_corrector
 #from .io    import save_config, load_config
 #from .plot  import plot_results
 
-import jax
-jax.config.update("jax_enable_x64", True)
 
 __all__ = [
   'Simulation',
