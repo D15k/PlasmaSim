@@ -1,7 +1,7 @@
 import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
-from scipy.interpolate import CubicSpline
+from scipy.interpolate import CubicSpline, interp1d
 
 
 def NuFi(iter, species_i, params):
@@ -23,7 +23,7 @@ def NuFi(iter, species_i, params):
     fini = species_i.init_distrib_fct
     f = species_i.curt_distrib_fct
     
-    X_new, V_new = sympl_flow_Half(iter + 1, dt, X, V, (charge / mass) * params.hist_Efield, params) # not sure its iter + 1 or iter
+    X_new, V_new = sympl_flow_Half(iter + 1, dt, X, V, (charge / mass) * params.hist_Efield, params)
     
     f = f.at[:, :].set(fini(X_new, V_new).T)
     

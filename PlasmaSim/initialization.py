@@ -4,6 +4,7 @@ jax.config.update("jax_enable_x64", True)
 from dataclasses import dataclass, field
 from typing import Callable
 from os import getcwd
+from datetime import datetime
 
 ### Classes to help users initialize the simulation ###
     
@@ -26,19 +27,18 @@ class Parameters:
         save_freq (int, optional): Number of time steps between each data recording. Used for exporting data and plotting. Defaults to 1, saves data after every time step.
         name (str, optional): Custom name of the simulation. Defaults to 'PlasmaSim'. Used for saving results.
     ''' 
-    
-    computation_method: str
-    
     N_t: int
     L_t: float
     N_x: int
     L_x: float
     N_v: int
+    
+    computation_method: str
 
     export: bool = False
     plot: bool = False
     save_freq: int = 1
-    name: str = 'PlasmaSim'
+    name: str = f'PlasmaSim_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}' 
     save_dir: str = getcwd()
     
     dt: float = field(init = False)

@@ -1,9 +1,12 @@
-from dataclasses import asdict
+
+# Contains generic utility functions for the PlasmaSim package.
+
 '''
 def copy_attrs(target, source, exclude_prefix="__"):
     for attr in dir(source):
-        if not attr.startswith(exclude_prefix) and not callable(getattr(source, attr)):
-            setattr(target, attr, getattr(source, attr))'''
+        if not attr.startswith(exclude_prefix) and not callable²(getattr(source, attr)):
+            setattr(target, attr, getattr(source, attr))
+'''
 
 
 def copy_attrs(source, target, exclude_prefix='__'):

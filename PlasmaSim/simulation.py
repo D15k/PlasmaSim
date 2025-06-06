@@ -33,7 +33,7 @@ class Simulation:
             species_i.grid = self.__build_PhaseSpaceGrid(species_i) # Grid of points on the spatial and velocity axes
             species_i.curt_distrib_fct = self.__build_InitDistribFct(species_i) # Initial distribution function
         
-        self.hist_Efield = jnp.zeros((self.N_t, self.N_x)) # History of the electric field
+        self.hist_Efield = jnp.zeros((self.N_t + 1, self.N_x)) # History of the electric field
         self.curt_Efield = Poisson(self) # Compute initial electric field and store it as the current electric field
         self.hist_Efield = self.hist_Efield.at[0, :].set(self.curt_Efield) # Store the initial electric field
         
@@ -51,9 +51,9 @@ class Simulation:
     
     
     def run(self):
-        for iter in tqdm(range(1, self.N_t + 1), 'Simulation running...'): # iter = 0 is the initial condition so we start from 1 and finish at (N_t + 1) since we want to include the last time step and the range is exclusive of the end point
+        for iter in tqdm(range(1, self.N_t + 1), 'Simulation running'): # iter = 0 is the initial condition so we start from 1 and finish at (N_t + 1) since we want to include the last time step and the range is exclusive of the end point
             
-            if self.computation_method == "NuFi":
+            if self.computation_method == "NuFI":
 
                 for species_i in self.sim_species:
                     species_i.curt_distrib_fct = species_i.curt_distrib_fct.at[:].set(NuFi(iter, species_i, self))  # Update the distribution function for each species
@@ -84,7 +84,7 @@ class Simulation:
         Build the grid for the simulation based on the parameters and species.
         '''
         
-        x = jnp.arange(self.N_x) * self.L_x / self.N_x # Spatial axis
+        x = jnp.arange(self.N_x) * self.L_x / self.N_x               # Spatial axis
         v = jnp.linspace(-species.L_v, species.L_v, self.N_v)        # Velocity axis
         
         X, V = jnp.meshgrid(x, v) # Grid of points on the spatial and velocity axes
