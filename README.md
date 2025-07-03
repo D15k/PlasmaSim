@@ -11,8 +11,6 @@ Python package derived from the original Matlab codebase, designed for semi-Lagr
 + Scipy
 + Matplotlib
 
-It is also possible to do: ```pip install -r requirements.txt```
-
 
 ## 🟧 Repository content
 
