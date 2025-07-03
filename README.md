@@ -38,7 +38,7 @@ I advise to look at the ScriptExamples folder to understand how to use the packa
 
 ## 🟧 Package Structure
 
-
+```
 PlasmaSim
 ├── __init.py               # Package init
 ├── initalisation.py        # Dataclasses to define parameters of the simulation
@@ -48,3 +48,4 @@ PlasmaSim
 ├── solveVlasov.py          # Functions evolving the distribution functions in time using NuFI 
 ├── storeData.py            # Class handling outputs by storing data at set frequency and plotting 
 └── utils.py                # Utilitary functions for class attributes handling
+```
