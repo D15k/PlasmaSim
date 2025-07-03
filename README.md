@@ -3,7 +3,7 @@
 Python package derived from the original Matlab codebase, designed for semi-Lagrangian kinetic simulations. 
 
 
-##🟧 Packages requierements
+## 🟧 Packages requierements
 
 + JAX (version 0.5.3)
 + tqdm
@@ -11,10 +11,13 @@ Python package derived from the original Matlab codebase, designed for semi-Lagr
 + Scipy
 + Matplotlib
 
-It is also possible to do: '''bash pip install -r requirements.txt'''
+It is also possible to do: 
+'''bash 
+pip install -r requirements.txt
+'''
 
 
-##🟧 Repository content
+## 🟧 Repository content
 
 + Benchmark :                       Scripts used to perform the error benchmark between Python and Matlab
 + ClusterSpeedTest :                Acceleration test scripts performed on GPU cluster and results
@@ -24,14 +27,18 @@ It is also possible to do: '''bash pip install -r requirements.txt'''
 + ScriptExamples :                  Scripts excamples using the PlasmaSim package on test cases (Landau damping, two-stream instability, ion acoustic wave)      
 
 
-##🟧 How to use
+## 🟧 How to use
 
 1. Import PlasmaSim and JAX (enforce double precision using flag)
 2. Define simulation parameters and species of the simulation
 3. Initialisie simulation and run it
 4. Outputs (following parameters are False by default, if unspecified no outputs):
-    + '''python export = True''' : Data sampled at frequency save_freq will be saved as .mat file in the chosen specified folder (if not undefined, it will be saved in the same folder as the scipt).
-    + '''python plot = True''' : Plot the distribution function of each species in phase space as well as the electric field using data sampled at frequency save_freq.
+    + '''
+    python export = True
+    ''' : Data sampled at frequency save_freq will be saved as .mat file in the chosen specified folder (if not undefined, it will be saved in the same folder as the scipt).
+    + '''python
+     plot = True
+     ''' : Plot the distribution function of each species in phase space as well as the electric field using data sampled at frequency save_freq.
 
 I advise to look at the ScriptExamples folder to understand how to use the package. 
 
