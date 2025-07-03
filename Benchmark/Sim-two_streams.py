@@ -31,7 +31,7 @@ params = ps.Parameters(
     save_dir = r'C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\plasma-sim_python-conversion\Benchmark\two_streams',
     name = 'two_streams',
     export = True,
-    plot = False
+    plot = True
 )
 
 # Species

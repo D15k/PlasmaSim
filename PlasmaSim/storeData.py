@@ -20,7 +20,7 @@ class StoreData:
         self.sim = type('', (), {})()
         copy_attrs(sim, self.sim, ['__', 'hist_', 'stored_'])
                 
-        # Create save directory for ploting if necessary
+        # Create save directory for plotting if necessary
         self.save_path = f'{self.sim.save_dir}/{self.sim.name}'
         if self.sim.plot is True: makedirs(self.save_path, exist_ok=True)
         

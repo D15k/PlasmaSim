@@ -4,7 +4,7 @@ import jax.numpy as jnp
 from tqdm import tqdm
 
 from .initialization import Parameters, Species
-from .solvePoisson import Poisson  # Use the Poisson solver from solvePoisson.py
+from .solvePoisson import chargeDensity, Poisson
 from .solveVlasov import NuFi#, CMM, predictor_corrector
 from .storeData import StoreData
 from .utils import copy_attrs

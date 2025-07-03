@@ -3,7 +3,8 @@ jax.config.update("jax_enable_x64", True)
 
 from dataclasses import dataclass, field
 from typing import Callable
-from os import getcwd
+from os import path
+from sys import argv
 from datetime import datetime
 
 ### Classes to help users initialize the simulation ###
@@ -39,7 +40,7 @@ class Parameters:
     plot: bool = False
     save_freq: int = 1
     name: str = f'PlasmaSim_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}' 
-    save_dir: str = getcwd()
+    save_dir: str = path.dirname(path.abspath(argv[0]))                                     # If breaks, use getcwd()
     
     dt: float = field(init = False)
     dx: float = field(init = False)

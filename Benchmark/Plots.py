@@ -14,11 +14,11 @@ def load_python_data(file_path):
         
     return Efield, distrib_fcts
 
-def plot(grid, distrib_fcts):
+def plot(grid, distrib_fcts, path):
     N_t = distrib_fcts.shape[0]
     N_s = distrib_fcts.shape[1]
     
-    T = [0, (N_t-1)//2, N_t-1]
+    #T = [0, (N_t-1)//2, N_t-1]
     
     S = 12
     plt.rcParams['font.size'] = S
@@ -26,7 +26,7 @@ def plot(grid, distrib_fcts):
     plt.rcParams['xtick.labelsize'] = S
     plt.rcParams['ytick.labelsize'] = S
     
-    for t in T:
+    for t in range(N_t):
         fig, axes = plt.subplots(N_s, 1, figsize=(10, 4*(N_s + 1)))
         if N_s == 1:
             axes = [axes]  # Convert single Axes to list for consistent handling
@@ -41,13 +41,13 @@ def plot(grid, distrib_fcts):
 
         plt.tight_layout()
         print(t)
-        plt.show()
+        plt.savefig(path + rf'\img\frame{t}')
 
 main_path = r'C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\plasma-sim_python-conversion\Benchmark'
 
 #path = main_path + r'\ion_acoustic_waves'
-#path = main_path + r'\landau_damping'
-path = main_path + r'\two_streams'
+path = main_path + r'\landau_damping'
+#path = main_path + r'\two_streams'
 
 _, distrib_fcts = load_python_data(path + r'\data_python.mat')
 
@@ -62,4 +62,4 @@ L_v2 = 0.1 * jnp.pi
 
 grids = [[x(N_x, L_x), v(N_v, L_v)]] #,[x(N_x, L_x), v(N_v, L_v2)]
 
-plot(grids, distrib_fcts)
+plot(grids, distrib_fcts, path)

@@ -3,6 +3,7 @@ jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 from scipy.interpolate import CubicSpline, interp1d
 
+from .lagrangeInterp import periodicLocLagInterp
 
 def NuFi(iter, species_i, params):
     """
@@ -64,14 +65,16 @@ def sympl_flow_Half(n, dt, X, V, Efield, params):
         E = (Efield[n-1, :])
         E_interp = CubicSpline(x, E)
         I = E_interp(RP)
+        #I = periodicLocLagInterp(RP, x, E)
         RI = I.reshape(Xshape, order='F')
         V = V + dt * RI
   
     X = X - dt * V
     P = periodic(X)
     RP = P.reshape((-1, 1), order='F') # size (N_x * N_v, 1)
-    E_interp = CubicSpline(x, Efield[0, :])
+    E_interp = CubicSpline(x, Efield[0, :])                       #TODO: periodicLocLagInterp(RP, x, Efield[0, :])
     I = E_interp(RP)
+    #I = periodicLocLagInterp(RP, x, Efield[0, :])
     RI = I.reshape(Xshape, order='F')
     V = V + (dt / 2) * RI
     

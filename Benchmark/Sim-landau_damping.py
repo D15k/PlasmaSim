@@ -32,7 +32,7 @@ params = ps.Parameters(
     save_dir = r'C:\Users\Clément\Documents\M2 Physique Fondamentale & Applications - Univers & Particules\Internship\plasma-sim_python-conversion\Benchmark\landau_damping',
     name = 'landau_damping',
     export = True,
-    plot = False
+    plot = True
 )
 
 # Species

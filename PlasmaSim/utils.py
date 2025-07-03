@@ -1,12 +1,8 @@
+import jax
+jax.config.update("jax_enable_x64", True)
+import jax.numpy as jnp
 
 # Contains generic utility functions for the PlasmaSim package.
-
-'''
-def copy_attrs(target, source, exclude_prefix="__"):
-    for attr in dir(source):
-        if not attr.startswith(exclude_prefix) and not callable²(getattr(source, attr)):
-            setattr(target, attr, getattr(source, attr))
-'''
 
 
 def copy_attrs(source, target, exclude_prefix='__'):
@@ -25,3 +21,20 @@ def copy_attrs(source, target, exclude_prefix='__'):
     for key in dir(source):
         if not any(key.startswith(prefix) for prefix in exclude_prefix):
             setattr(target, key, getattr(source, key))
+
+
+def extract_attrs(source, attribute):
+    '''
+    Extract a specific attribute from the source object(s) and return the values as a jax array.
+
+    Args:
+        source: The source object(s) to extract the attribute from (can be a single object or list of objects).
+        attribute: The name of the attribute to extract from each object.
+    '''
+    
+    if not isinstance(source, list):
+        source = [source]
+        
+    attribute_values = jnp.array([getattr(item, attribute) for item in source])
+    
+    return attribute_values

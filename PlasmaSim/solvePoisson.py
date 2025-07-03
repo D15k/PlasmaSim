@@ -1,7 +1,27 @@
+from .utils import extract_attrs
+
 import jax
 jax.config.update("jax_enable_x64", True)
 import jax.numpy as jnp
 from jax import jit
+
+
+def chargeDensity(species):
+    """
+    Computes the charge density using the distribution function of each species.
+    """
+    # Extract attributes from species as jax arrays for easier computation
+    charges = extract_attrs(species, 'charge')
+    curt_distrib_fct = extract_attrs(species, 'curt_distrib_fct')
+    dv = extract_attrs(species, 'dv')
+    
+    # Compute charge density for each species
+    rho_species = charges * jnp.sum(curt_distrib_fct, axis=2) * dv
+    
+    # Sum over all species to get total charge density
+    rho = jnp.sum(rho_species, axis=0)
+    
+    return rho
 
 
 def Poisson(params):
@@ -21,10 +41,7 @@ def Poisson(params):
     L_x = params.L_x
     
     ### Compute charge density for each species
-    rho = jnp.zeros(N_x)  # Initialize rho with zeros
-    
-    for species_i in params.sim_species:
-        rho += species_i.charge * jnp.sum(species_i.curt_distrib_fct, axis=1) * species_i.dv
+    rho = chargeDensity(params.sim_species)
    
     # Define wave numbers
     kx = (2 * jnp.pi / L_x) * jnp.fft.fftshift(jnp.arange(-N_x//2, N_x//2))
